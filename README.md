@@ -1,3 +1,4 @@
+Проект разработан в рамках обучения курса школы IJunior.
 ![image](https://github.com/user-attachments/assets/bcb29efb-dbea-4f8e-96bd-86b99ce765dd)
 ![image](https://github.com/user-attachments/assets/e97057ed-a96f-4497-b3fb-53a591b9044d)
 ![image](https://github.com/user-attachments/assets/1e4adb5a-52be-424f-9a49-14b89740a997)
