@@ -1,17 +1,27 @@
-public abstract class FsmPlayerState
+using Scripts.Character;
+using Scripts.Input;
+
+namespace Scripts.FSMPlayer
 {
-    protected readonly FsmPlayer FsmPlayer;
-    protected readonly PlayerAnimator PlayerAnimator;
-    protected readonly InputReader InputReader;
-
-    protected FsmPlayerState(FsmPlayer fsmPlayer, PlayerAnimator playerAnimator, InputReader inputReader)
+    public abstract class FsmPlayerState
     {
-        FsmPlayer = fsmPlayer;
-        PlayerAnimator = playerAnimator;
-        InputReader = inputReader;
-    }
+        protected readonly FsmPlayer FsmPlayer;
+        protected readonly PlayerAnimator PlayerAnimator;
+        protected readonly InputReader InputReader;
 
-    public virtual void Enter() { }
-    public virtual void Exit() { }
-    public virtual void Update() { }
+        protected FsmPlayerState(FsmPlayer fsmPlayer, PlayerAnimator playerAnimator, InputReader inputReader)
+        {
+            FsmPlayer = fsmPlayer;
+            PlayerAnimator = playerAnimator;
+            InputReader = inputReader;
+        }
+
+        public virtual void Enter() { }
+
+        public virtual void Exit() { }
+
+        public virtual void Update() { }
+
+        public virtual void FixedUpdate() { }
+    }
 }

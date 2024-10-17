@@ -1,25 +1,32 @@
-public class FsmPlayerStateRun : FsmPlayerState
+using Scripts.Character;
+using Scripts.Input;
+
+namespace Scripts.FSMPlayer
 {
-    private readonly PlayerMover _playerMover;
-
-    public FsmPlayerStateRun(
-        FsmPlayer fsmPlayer, 
-        PlayerAnimator playerAnimator, 
-        InputReader inputReader,
-        PlayerMover playerMover) 
-        : base(fsmPlayer, playerAnimator, inputReader)
+    public class FsmPlayerStateRun : FsmPlayerState
     {
-        _playerMover = playerMover;
-    }
+        private readonly PlayerMover _playerMover;
 
-    public override void Enter() =>
-        PlayerAnimator.PlayRunAnimation();
+        public FsmPlayerStateRun(
+            FsmPlayer fsmPlayer,
+            PlayerAnimator playerAnimator,
+            InputReader inputReader,
+            PlayerMover playerMover)
+            : base(fsmPlayer, playerAnimator, inputReader)
+        {
+            _playerMover = playerMover;
+        }
 
-    public override void Update()
-    {
-        if (InputReader.NotHaveInput())
-            FsmPlayer.SetState<FsmPlayerStateIdle>();
+        public override void Enter() =>
+            PlayerAnimator.PlayRunAnimation();
 
-        _playerMover.Move(InputReader.Input);
+        public override void Update()
+        {
+            if (InputReader.NotHaveInput())
+                FsmPlayer.SetState<FsmPlayerStateIdle>();
+        }
+
+        public override void FixedUpdate() =>
+            _playerMover.Move(InputReader.Input);
     }
 }

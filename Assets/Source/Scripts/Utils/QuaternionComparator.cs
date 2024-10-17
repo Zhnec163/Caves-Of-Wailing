@@ -1,7 +1,10 @@
 using UnityEngine;
 
-public static class QuaternionComparator
+namespace Scripts.Utils
 {
-    public static bool Approximately(Quaternion quaternionA, Quaternion quaternionB, float acceptableRange) =>
-        1 - Mathf.Abs(Quaternion.Dot(quaternionA, quaternionB)) < acceptableRange;
+    public static class QuaternionComparator
+    {
+        public static bool Approximately(Quaternion quaternionA, Quaternion quaternionB, float acceptableRange) =>
+            1 - Mathf.Abs(Quaternion.Dot(quaternionA, quaternionB)) < acceptableRange;
+    }
 }

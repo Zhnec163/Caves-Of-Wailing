@@ -1,16 +1,20 @@
+using Scripts.UI.Loader;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Image))]
-public class GameLoaderView : MonoBehaviour
+namespace Scripts.UI
 {
-    [SerializeField] private GameLoader _gameLoader;
-    
-    private Image _image;
-    
-    private void Awake() =>
-        _image = GetComponent<Image>();
+    [RequireComponent(typeof(Image))]
+    public class GameLoaderView : MonoBehaviour
+    {
+        [SerializeField] private GameLoader _gameLoader;
 
-    public void Update() =>
-        _image.fillAmount = _gameLoader.Progress;
+        private Image _image;
+
+        private void Awake() =>
+            _image = GetComponent<Image>();
+
+        public void Update() =>
+            _image.fillAmount = _gameLoader.Progress;
+    }
 }

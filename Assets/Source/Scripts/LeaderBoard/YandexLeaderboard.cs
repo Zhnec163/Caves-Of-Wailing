@@ -1,52 +1,82 @@
-using System;
-using System.Collections.Generic;
-using Agava.YandexGames;
-using Cysharp.Threading.Tasks;
+using Scripts.Constant;
+using Scripts.UI.Entity;
 using UnityEngine;
+using UnityEngine.UI;
+using YG;
+using YG.Utils.LB;
 
-public class YandexLeaderboard : MonoBehaviour
+namespace Scripts.LeaderBoard
 {
-    private const string LeaderBoardName = "MainLeaderboard";
-    private const string AnonymousName = "Anonymous";
-
-    [SerializeField] private LeaderboardView _leaderboardView;
-
-    public void SetPlayerScore(int score)
+    [RequireComponent(typeof(LeaderboardYG))]
+    public class YandexLeaderboard : MonoBehaviour
     {
-        if (PlayerAccount.IsAuthorized == false)
-            return;
-        
-        Leaderboard.GetPlayerEntry(LeaderBoardName, result =>
-        {
-            if (result == null || result.score < score)
-                Leaderboard.SetScore(LeaderBoardName, score);
-        });
-    }
+        [SerializeField] private Button _leaderboardButton;
+        [SerializeField] private LeaderboardView _leaderboardView;
+        [SerializeField] private AuthorizationPopup _authorizationPopup;
+        [SerializeField] private Button _authorizationConfirmationButton;
+        [SerializeField] private Button _authorizationDeniedButton;
 
-    public void Fill()
-    {
-        if (PlayerAccount.IsAuthorized == false)
-            return;
+        private bool _isActive;
 
-        List<LeaderboardPlayer> leaderboardPlayers = new List<LeaderboardPlayer>();
-        
-        Leaderboard.GetEntries(LeaderBoardName, result =>
+        private void Awake()
         {
-            foreach (var entry in result.entries)
+            _leaderboardButton.onClick.AddListener(OnClickLeaderboardButton);
+            _authorizationConfirmationButton.onClick.AddListener(OnClickAuthorizationConfirmationButton);
+            _authorizationDeniedButton.onClick.AddListener(OnClickAuthorizationDeniedButton);
+            YandexGame.onGetLeaderboard += OnGetLeaderboard;
+        }
+
+        private void OnDestroy()
+        {
+            YandexGame.onGetLeaderboard -= OnGetLeaderboard;
+            _leaderboardButton.onClick.RemoveListener(OnClickLeaderboardButton);
+            _authorizationConfirmationButton.onClick.RemoveListener(OnClickAuthorizationConfirmationButton);
+            _authorizationDeniedButton.onClick.RemoveListener(OnClickAuthorizationDeniedButton);
+        }
+
+        private void OnGetLeaderboard(LBData lbData) =>
+            PlayerPrefs.SetInt(PlayerPrefNames.BestScore, lbData.thisPlayer.score);
+
+        private void OnClickLeaderboardButton()
+        {
+            if (_isActive)
             {
-                int rank = entry.rank;
-                int score = entry.score;
-                string name = entry.player.publicName;
-        
-                if (string.IsNullOrEmpty(name))
-                    name = AnonymousName;
-                
-                leaderboardPlayers.Add(new LeaderboardPlayer(rank, name, score));
+                _isActive = false;
+                CloseLeaderboardView();
             }
-            
-            _leaderboardView.ConstructLeaderboard(leaderboardPlayers);
-        });
-        
-        _leaderboardView.gameObject.SetActive(true);
+            else
+            {
+                if (YandexGame.auth)
+                {
+                    _isActive = true;
+                    ShowLeaderboardView();
+                }
+                else
+                {
+                    ShowAuthorizationPopup();
+                }
+            }
+        }
+
+        private void OnClickAuthorizationConfirmationButton()
+        {
+            YandexGame.AuthDialog();
+            CloseAuthorizationPopup();
+        }
+
+        private void OnClickAuthorizationDeniedButton() =>
+            CloseAuthorizationPopup();
+
+        private void ShowAuthorizationPopup() =>
+            _authorizationPopup.gameObject.SetActive(true);
+
+        private void CloseAuthorizationPopup() =>
+            _authorizationPopup.gameObject.SetActive(false);
+
+        private void ShowLeaderboardView() =>
+            _leaderboardView.gameObject.SetActive(true);
+
+        private void CloseLeaderboardView() =>
+            _leaderboardView.gameObject.SetActive(false);
     }
 }

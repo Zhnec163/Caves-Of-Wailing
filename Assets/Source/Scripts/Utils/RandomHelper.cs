@@ -1,7 +1,10 @@
 using UnityEngine;
 
-public class RandomHelper : MonoBehaviour
+namespace Scripts.Utils
 {
-    public static int GetRandomInt(int minValue, int maxValue) =>
-        Random.Range(minValue, maxValue);
+    public class RandomHelper : MonoBehaviour
+    {
+        public static int GetRandomInt(int minValue, int maxValue) =>
+            Random.Range(minValue, maxValue);
+    }
 }

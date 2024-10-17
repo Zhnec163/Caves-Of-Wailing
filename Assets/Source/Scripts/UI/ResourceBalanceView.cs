@@ -1,29 +1,36 @@
+using Scripts.Character;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Slider))]
-public class ResourceBalanceView : MonoBehaviour
+namespace Scripts.UI
 {
-    [SerializeField] private ResourceBalance _resourceBalance;
-    [SerializeField] private TMP_Text _text;
-
-    private Slider _slider;
-
-    private void Awake()
+    [RequireComponent(typeof(Slider))]
+    public class ResourceBalanceView : MonoBehaviour
     {
-        _resourceBalance.Changed += OnChanged;
-        _text.text = $"{_resourceBalance.Balance} / {_resourceBalance.MaxResourceAmount}";
-        _slider = GetComponent<Slider>();
-        _slider.maxValue = _resourceBalance.MaxResourceAmount;
-    }
+        [SerializeField] private ResourceBalance _resourceBalance;
+        [SerializeField] private TMP_Text _text;
 
-    private void OnDestroy() =>
-        _resourceBalance.Changed -= OnChanged;
+        private Slider _slider;
 
-    private void OnChanged()
-    {
-        _text.text = $"{_resourceBalance.Balance} / {_resourceBalance.MaxResourceAmount}";
-        _slider.value = _resourceBalance.Balance;
+        private void Awake()
+        {
+            _resourceBalance.Changed += OnChanged;
+            UpdateText($"{_resourceBalance.Balance} / {_resourceBalance.MaxResourceAmount}");
+            _slider = GetComponent<Slider>();
+            _slider.maxValue = _resourceBalance.MaxResourceAmount;
+        }
+
+        private void OnDestroy() =>
+            _resourceBalance.Changed -= OnChanged;
+
+        private void OnChanged()
+        {
+            UpdateText($"{_resourceBalance.Balance} / {_resourceBalance.MaxResourceAmount}");
+            _slider.value = _resourceBalance.Balance;
+        }
+
+        private void UpdateText(string text) =>
+            _text.text = text;
     }
 }

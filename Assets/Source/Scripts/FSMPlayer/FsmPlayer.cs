@@ -1,30 +1,36 @@
 using System;
 using System.Collections.Generic;
 
-public class FsmPlayer
+namespace Scripts.FSMPlayer
 {
-    private readonly Dictionary<Type, FsmPlayerState> _states = new();
-    
-    private FsmPlayerState _currentState;
-
-    public void AddState(FsmPlayerState fsmPlayerState) =>
-        _states.Add(fsmPlayerState.GetType(), fsmPlayerState);
-
-    public void SetState<T>() where T : FsmPlayerState
+    public class FsmPlayer
     {
-        var type = typeof(T);
+        private readonly Dictionary<Type, FsmPlayerState> _states = new();
 
-        if (_currentState != null && _currentState.GetType() == type)
-            return;
+        private FsmPlayerState _currentState;
 
-        if (_states.TryGetValue(type, out var newState))
+        public void AddState(FsmPlayerState fsmPlayerState) =>
+            _states.Add(fsmPlayerState.GetType(), fsmPlayerState);
+
+        public void SetState<T>() where T : FsmPlayerState
         {
-            _currentState?.Exit();
-            _currentState = newState;
-            _currentState.Enter();
-        }
-    }
+            var type = typeof(T);
 
-    public void Update() =>
-        _currentState?.Update();
+            if (_currentState != null && _currentState.GetType() == type)
+                return;
+
+            if (_states.TryGetValue(type, out var newState))
+            {
+                _currentState?.Exit();
+                _currentState = newState;
+                _currentState.Enter();
+            }
+        }
+
+        public void Update() =>
+            _currentState?.Update();
+
+        public void FixedUpdate() =>
+            _currentState?.FixedUpdate();
+    }
 }

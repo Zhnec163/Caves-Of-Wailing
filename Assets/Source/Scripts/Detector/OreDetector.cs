@@ -1,24 +1,37 @@
+using Scripts.Interactive.Ore;
 using UnityEngine;
 
-public class OreDetector : SphereCastDetector
+namespace Scripts.Detector
 {
-    private Ore _ore;
-
-    private void Update() =>
-        Detecting();
-
-    public bool TryGetOre(out Ore ore)
+    public class OreDetector : SphereCastDetector
     {
-        ore = null;
+        private Ore _ore;
 
-        if (_ore == default)
-            return false;
+        private void Update() =>
+            Detecting();
 
-        ore = _ore;
-        return true;
+        public bool TryGetOre(out Ore ore)
+        {
+            ore = null;
+
+            if (_ore == default)
+                return false;
+
+            ore = _ore;
+            return true;
+        }
+
+        protected override void Detecting()
+        {
+            if (Physics.SphereCast(transform.position, Radius, transform.forward, out RaycastHit raycastHit, Distance, LayerMask))
+            {
+                if (raycastHit.collider.TryGetComponent(out Ore ore))
+                    _ore = ore;
+            }
+            else
+            {
+                _ore = default;
+            }
+        }
     }
-
-    protected override void Detecting() =>
-        _ore = Physics.SphereCast(transform.position, Radius, transform.forward, out RaycastHit raycastHit, Distance, LayerMask) 
-               && raycastHit.collider.TryGetComponent(out Ore ore) ? ore : default;
 }

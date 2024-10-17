@@ -1,26 +1,30 @@
-using System.Text;
+using Scripts.Character;
 using TMPro;
 using UnityEngine;
 
-[RequireComponent(typeof(TMP_Text))]
-public class ExperienceBalanceView : MonoBehaviour
+namespace Scripts.UI
 {
-    private readonly string Postfix = "EXP";
-    
-    [SerializeField] private ExperienceBalance _experienceBalance;
-
-    private TMP_Text _text;
-
-    private void Awake()
+    [RequireComponent(typeof(TMP_Text))]
+    public class ExperienceBalanceView : MonoBehaviour
     {
-        _text = GetComponent<TMP_Text>();
-        _experienceBalance.Changed += OnChanged;
-        _text.text =  $"{_experienceBalance.Balance} {Postfix}";
+        [SerializeField] private ExperienceBalance _experienceBalance;
+
+        private TMP_Text _text;
+
+        private void Awake()
+        {
+            _text = GetComponent<TMP_Text>();
+            _experienceBalance.Changed += OnChanged;
+            UpdateText(_experienceBalance.Balance.ToString());
+        }
+
+        private void OnDestroy() =>
+            _experienceBalance.Changed -= OnChanged;
+
+        private void OnChanged() =>
+            UpdateText(_experienceBalance.Balance.ToString());
+
+        private void UpdateText(string text) =>
+            _text.text = text;
     }
-
-    private void OnDestroy() =>
-        _experienceBalance.Changed -= OnChanged;
-
-    private void OnChanged() =>
-        _text.text = $"{_experienceBalance.Balance} {Postfix}";
 }

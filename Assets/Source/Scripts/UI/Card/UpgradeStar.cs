@@ -1,25 +1,28 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Image))]
-public class UpgradeStar : MonoBehaviour
+namespace Scripts.UI.Card
 {
-    [SerializeField] private Sprite _fill;
-    
-    private Image _image;
-
-    public bool IsFilled { get; private set; }
-
-    private void Awake() =>
-        _image = GetComponent<Image>();
-
-    public bool TryFill()
+    [RequireComponent(typeof(Image))]
+    public class UpgradeStar : MonoBehaviour
     {
-        if (IsFilled)
-            return false;
+        [SerializeField] private Sprite _fill;
 
-        _image.sprite = _fill;
-        IsFilled = true;
-        return true;
+        private Image _image;
+
+        public bool IsFilled { get; private set; }
+
+        private void Awake() =>
+            _image = GetComponent<Image>();
+
+        public bool TryFill()
+        {
+            if (IsFilled)
+                return false;
+
+            _image.sprite = _fill;
+            IsFilled = true;
+            return true;
+        }
     }
 }

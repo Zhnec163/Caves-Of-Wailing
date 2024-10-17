@@ -1,65 +1,69 @@
-using TMPro;
+using Scripts.Constant;
+using Scripts.UI.Entity;
+using Scripts.UI.Loader;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class MenuController : MonoBehaviour
+namespace Scripts.UI
 {
-    [SerializeField] private GameObject _gameUI;
-    [SerializeField] private GameObject _pauseMenu;
-    [SerializeField] private GameObject _winnerMenu;
-    [SerializeField] private GameObject _loseMenu;
-    [SerializeField] private GameObject _upgradeCards;
-    [SerializeField] private GameObject _toMenuButton;
-    [SerializeField] private TMP_Text _totalExperience;
-    [SerializeField] private TMP_Text _timeLeft;
-    [SerializeField] private TMP_Text _score;
+    [RequireComponent(typeof(GameLoader))]
+    public class MenuController : MonoBehaviour
+    {
+        [SerializeField] private Button _playButton;
+        [SerializeField] private Button _settingsButton;
+        [SerializeField] private Button _backButton;
+        [SerializeField] private SettingsMenu _settingsMenu;
 
-    private bool _isShownCards;
+        private GameLoader _gameLoader;
 
-    public void ShowUpgrade()
-    {
-        _isShownCards = true;
-        _upgradeCards.SetActive(true);
-    }
-    
-    public void CloseUpgrade()
-    {
-        _isShownCards = false;
-        _upgradeCards.SetActive(false);;
-    }
-    
-    public void OpenPauseMenu()
-    {
-        _upgradeCards.SetActive(false);
-        _gameUI.SetActive(false);
-        _pauseMenu.SetActive(true);
-        _toMenuButton.SetActive(true);
-    }
-    
-    public void HidePauseMenu()
-    {
-        _pauseMenu.SetActive(false);
-        _toMenuButton.SetActive(false);
+        private void Awake()
+        {
+            _gameLoader = GetComponent<GameLoader>();
+            _playButton.onClick.AddListener(OnClickPlayButton);
+            _settingsButton.onClick.AddListener(OnClickSettingButton);
+            _backButton.onClick.AddListener(OnClickBackButton);
+        }
 
-        if (_isShownCards)
-            _upgradeCards.SetActive(true);
+        private void OnDestroy()
+        {
+            _playButton.onClick.RemoveListener(OnClickPlayButton);
+            _settingsButton.onClick.RemoveListener(OnClickSettingButton);
+            _backButton.onClick.RemoveListener(OnClickBackButton);
+        }
 
-        _gameUI.SetActive(true);
-    }
-    
-    public void OpenWinnerMenu(int experience, int timeLeft, int score)
-    {
-        _totalExperience.text = experience.ToString();
-        _timeLeft.text = timeLeft.ToString();
-        _score.text = score.ToString();
-        _gameUI.SetActive(false);
-        _winnerMenu.SetActive(true);
-        _toMenuButton.SetActive(true);
-    }
-    
-    public void OpenLoseMenu()
-    {
-        _gameUI.SetActive(false);
-        _loseMenu.SetActive(true);
-        _toMenuButton.SetActive(true);
+        private void OnClickPlayButton() =>
+            _gameLoader.Load(SceneNames.Level);
+
+        private void OnClickSettingButton()
+        {
+            ClosePlayButton();
+            CloseSettingsButton();
+            ShowSettingsMenu();
+        }
+
+        private void OnClickBackButton()
+        {
+            ShowPlayButton();
+            ShowSettingsButton();
+            CloseSettingsMenu();
+        }
+
+        private void ShowSettingsMenu() =>
+            _settingsMenu.gameObject.SetActive(true);
+
+        private void CloseSettingsMenu() =>
+            _settingsMenu.gameObject.SetActive(false);
+
+        private void ShowSettingsButton() =>
+            _settingsButton.gameObject.SetActive(true);
+
+        private void CloseSettingsButton() =>
+            _settingsButton.gameObject.SetActive(false);
+
+        private void ShowPlayButton() =>
+            _playButton.gameObject.SetActive(true);
+
+        private void ClosePlayButton() =>
+            _playButton.gameObject.SetActive(false);
     }
 }

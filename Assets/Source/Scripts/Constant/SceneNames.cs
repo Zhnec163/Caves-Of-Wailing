@@ -1,5 +1,8 @@
-﻿public static class SceneNames
+﻿namespace Scripts.Constant
 {
-    public const string Menu = "Menu";
-    public const string Level = "Level";
+    public static class SceneNames
+    {
+        public const string Menu = "Menu";
+        public const string Level = "Level";
+    }
 }
