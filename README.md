@@ -1,6 +1,6 @@
 Проект разрабатывается в рамках обучения курса школы IJunior.
 В игре нужно собирать ресурсы, бегая по подземелью. Ресурсы случайно спавнятся в разных частях подземелья. Лабиринт из комнат каждый раз перестраивается с помощью алгоритма "Гарантированного пути".
-В проекте использовались : DOTween, UniTask, Динамический Leaderbord, Интеграция AgawaYandexSDK, FSM, ProBuilder, Lean Localization, Cinemachine
+В проекте использовались : DOTween, UniTask, Динамический Leaderbord, Интеграция PluginYG, FSM, ProBuilder, Lean Localization, Cinemachine
 
 ![image](https://github.com/user-attachments/assets/1ea06070-c6bd-4efc-ba14-dd0435da7aa4)
 ![image](https://github.com/user-attachments/assets/bcb29efb-dbea-4f8e-96bd-86b99ce765dd)
