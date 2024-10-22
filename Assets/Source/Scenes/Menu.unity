@@ -1089,7 +1089,7 @@ MonoBehaviour:
   _playButton: {fileID: 6637770316303909505}
   _settingsButton: {fileID: 969662626}
   _backButton: {fileID: 417677586491076572}
-  _settingsMenu: {fileID: 1360110131128182744}
+  _settingsMenu: {fileID: 174623408719996202}
 --- !u!114 &428055357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3154,8 +3154,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _leaderboardButton: {fileID: 1478055083}
-  _leaderboardView: {fileID: 976577400}
-  _authorizationPopup: {fileID: 788490752}
+  _leaderboardView: {fileID: 976577399}
+  _authorizationPopup: {fileID: 788490750}
   _authorizationConfirmationButton: {fileID: 167378205}
   _authorizationDeniedButton: {fileID: 624541047}
 --- !u!114 &1760072607
