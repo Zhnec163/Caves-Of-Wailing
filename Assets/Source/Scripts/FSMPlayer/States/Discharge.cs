@@ -3,22 +3,22 @@ using Cysharp.Threading.Tasks;
 using Scripts.Character;
 using Scripts.Input;
 
-namespace Scripts.FSMPlayer
+namespace Scripts.FSMPlayer.States
 {
-    public class FsmPlayerStateDischarge : FsmPlayerState
+    public class Discharge : BaseState
     {
         private readonly Backpack _backpack;
         private readonly float _dischargeTime;
         private UniTask _discharging;
         private CancellationTokenSource _cancellationTokenSource;
 
-        public FsmPlayerStateDischarge(
-            FsmPlayer fsmPlayer,
+        public Discharge(
+            StateMachine stateMachine,
             PlayerAnimator playerAnimator,
             InputReader inputReader,
             Backpack backpack,
             float dischargeTime)
-            : base(fsmPlayer, playerAnimator, inputReader)
+            : base(stateMachine, playerAnimator, inputReader)
         {
             _backpack = backpack;
             _dischargeTime = dischargeTime;
@@ -37,9 +37,9 @@ namespace Scripts.FSMPlayer
         public override void Update()
         {
             if (InputReader.HaveInput())
-                FsmPlayer.SetState<FsmPlayerStateRun>();
+                StateMachine.SetState<Run>();
             else if (_backpack.IsEmpty())
-                FsmPlayer.SetState<FsmPlayerStateIdle>();
+                StateMachine.SetState<Idle>();
             else if (_discharging.Status == UniTaskStatus.Succeeded)
                 _discharging = Discharging();
         }

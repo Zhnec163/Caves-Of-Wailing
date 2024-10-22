@@ -1,18 +1,19 @@
 using System;
 using System.Collections.Generic;
+using Scripts.FSMPlayer.States;
 
 namespace Scripts.FSMPlayer
 {
-    public class FsmPlayer
+    public class StateMachine
     {
-        private readonly Dictionary<Type, FsmPlayerState> _states = new();
+        private readonly Dictionary<Type, BaseState> _states = new();
 
-        private FsmPlayerState _currentState;
+        private BaseState _currentState;
 
-        public void AddState(FsmPlayerState fsmPlayerState) =>
-            _states.Add(fsmPlayerState.GetType(), fsmPlayerState);
+        public void AddState(BaseState baseState) =>
+            _states.Add(baseState.GetType(), baseState);
 
-        public void SetState<T>() where T : FsmPlayerState
+        public void SetState<T>() where T : BaseState
         {
             var type = typeof(T);
 

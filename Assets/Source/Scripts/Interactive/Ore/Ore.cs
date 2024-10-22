@@ -3,37 +3,37 @@ using UnityEngine;
 
 namespace Scripts.Interactive.Ore
 {
-    [RequireComponent(typeof(OreMeshChange))]
+    [RequireComponent(typeof(OreMeshChanger))]
     public class Ore : MonoBehaviour
     {
         [SerializeField] private int _resourceAmount;
 
         private ResourceSpawner _resourceSpawner;
-        private OreMeshChange _oreMeshChange;
+        private OreMeshChanger _oreMeshChanger;
 
         public void Init(ResourceSpawner resourceSpawner)
         {
-            _oreMeshChange = GetComponent<OreMeshChange>();
+            _oreMeshChanger = GetComponent<OreMeshChanger>();
             _resourceSpawner = resourceSpawner;
+        }
+
+        private void Update()
+        {
+            if (IsEmpty())
+                Destroy(gameObject);
         }
 
         public bool TryGetResource(out Resource.Resource resource)
         {
             resource = default;
 
-            if (IsNotEmpty())
-            {
-                resource = _resourceSpawner.Spawn(transform.position);
-                _resourceAmount--;
-                _oreMeshChange.ChangeModel();
+            if (IsEmpty())
+                return false;
 
-                if (IsEmpty())
-                    Destroy(gameObject);
-
-                return true;
-            }
-
-            return false;
+            resource = _resourceSpawner.Spawn(transform.position);
+            _resourceAmount--;
+            _oreMeshChanger.ChangeModel();
+            return true;
         }
 
         public bool IsNotEmpty() =>

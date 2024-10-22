@@ -1,5 +1,4 @@
 using Scripts.Constant;
-using Scripts.UI.Entity;
 using UnityEngine;
 using UnityEngine.UI;
 using YG;
@@ -11,8 +10,8 @@ namespace Scripts.LeaderBoard
     public class YandexLeaderboard : MonoBehaviour
     {
         [SerializeField] private Button _leaderboardButton;
-        [SerializeField] private LeaderboardView _leaderboardView;
-        [SerializeField] private AuthorizationPopup _authorizationPopup;
+        [SerializeField] private GameObject _leaderboardView;
+        [SerializeField] private GameObject _authorizationPopup;
         [SerializeField] private Button _authorizationConfirmationButton;
         [SerializeField] private Button _authorizationDeniedButton;
 
@@ -68,15 +67,15 @@ namespace Scripts.LeaderBoard
             CloseAuthorizationPopup();
 
         private void ShowAuthorizationPopup() =>
-            _authorizationPopup.gameObject.SetActive(true);
+            _authorizationPopup.SetActive(true);
 
         private void CloseAuthorizationPopup() =>
-            _authorizationPopup.gameObject.SetActive(false);
+            _authorizationPopup.SetActive(false);
 
         private void ShowLeaderboardView() =>
-            _leaderboardView.gameObject.SetActive(true);
+            _leaderboardView.SetActive(true);
 
         private void CloseLeaderboardView() =>
-            _leaderboardView.gameObject.SetActive(false);
+            _leaderboardView.SetActive(false);
     }
 }

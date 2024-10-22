@@ -3,22 +3,22 @@ using Scripts.Detector;
 using Scripts.Input;
 using Scripts.Interactive.Ore;
 
-namespace Scripts.FSMPlayer
+namespace Scripts.FSMPlayer.States
 {
-    public class FsmPlayerStateIdle : FsmPlayerState
+    public class Idle : BaseState
     {
         private readonly OreDetector _oreDetector;
         private readonly BuildZoneDetector _buildZoneDetector;
         private readonly Backpack _backpack;
 
-        public FsmPlayerStateIdle(
-            FsmPlayer fsmPlayer,
+        public Idle(
+            StateMachine stateMachine,
             PlayerAnimator playerAnimator,
             InputReader inputReader,
             OreDetector oreDetector,
             Backpack backpack,
             BuildZoneDetector buildZoneDetector)
-            : base(fsmPlayer, playerAnimator, inputReader)
+            : base(stateMachine, playerAnimator, inputReader)
         {
             _oreDetector = oreDetector;
             _backpack = backpack;
@@ -31,11 +31,11 @@ namespace Scripts.FSMPlayer
         public override void Update()
         {
             if (InputReader.HaveInput())
-                FsmPlayer.SetState<FsmPlayerStateRun>();
+                StateMachine.SetState<Run>();
             else if (_oreDetector.TryGetOre(out Ore ore) && ore.IsNotEmpty() && _backpack.IsNotFull())
-                FsmPlayer.SetState<FsmPlayerStateCollect>();
+                StateMachine.SetState<Collect>();
             else if (_buildZoneDetector.IsInner && _backpack.HaveResources())
-                FsmPlayer.SetState<FsmPlayerStateDischarge>();
+                StateMachine.SetState<Discharge>();
         }
     }
 }

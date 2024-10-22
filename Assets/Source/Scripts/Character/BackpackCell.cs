@@ -9,14 +9,12 @@ namespace Scripts.Character
 
         public bool TryPut(Resource resource)
         {
-            if (IsEmpty())
-            {
-                _resource = resource;
-                _resource.transform.parent = transform;
-                return true;
-            }
+            if (IsNotEmpty())
+                return false;
 
-            return false;
+            _resource = resource;
+            _resource.transform.parent = transform;
+            return true;
         }
 
         public bool TryGetResource(out Resource resource)
@@ -37,5 +35,8 @@ namespace Scripts.Character
 
         public bool IsEmpty() =>
             _resource == default;
+
+        private bool IsNotEmpty() =>
+            _resource != default;
     }
 }

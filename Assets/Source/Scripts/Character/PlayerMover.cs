@@ -4,7 +4,8 @@ using UnityEngine;
 
 namespace Scripts.Character
 {
-    [RequireComponent(typeof(Rigidbody)), RequireComponent(typeof(SurfaceSlider))]
+    [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(SurfaceSlider))]
     public class PlayerMover : MonoBehaviour
     {
         [SerializeField] private float _moveSpeed;
@@ -41,8 +42,7 @@ namespace Scripts.Character
         private void Rotate(Vector2 direction)
         {
             Quaternion targetRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.y));
-            transform.rotation =
-                Quaternion.Lerp(transform.rotation, targetRotation, Time.fixedDeltaTime * _rotateSpeed);
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.fixedDeltaTime * _rotateSpeed);
         }
 
         private void OnUpgraded() =>

@@ -1,5 +1,4 @@
 using Scripts.Constant;
-using Scripts.UI.Entity;
 using Scripts.UI.Loader;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,7 +11,7 @@ namespace Scripts.UI
         [SerializeField] private Button _playButton;
         [SerializeField] private Button _settingsButton;
         [SerializeField] private Button _backButton;
-        [SerializeField] private SettingsMenu _settingsMenu;
+        [SerializeField] private GameObject _settingsMenu;
 
         private GameLoader _gameLoader;
 
@@ -49,10 +48,10 @@ namespace Scripts.UI
         }
 
         private void ShowSettingsMenu() =>
-            _settingsMenu.gameObject.SetActive(true);
+            _settingsMenu.SetActive(true);
 
         private void CloseSettingsMenu() =>
-            _settingsMenu.gameObject.SetActive(false);
+            _settingsMenu.SetActive(false);
 
         private void ShowSettingsButton() =>
             _settingsButton.gameObject.SetActive(true);

@@ -1,18 +1,18 @@
 using Scripts.Character;
 using Scripts.Input;
 
-namespace Scripts.FSMPlayer
+namespace Scripts.FSMPlayer.States
 {
-    public class FsmPlayerStateRun : FsmPlayerState
+    public class Run : BaseState
     {
         private readonly PlayerMover _playerMover;
 
-        public FsmPlayerStateRun(
-            FsmPlayer fsmPlayer,
+        public Run(
+            StateMachine stateMachine,
             PlayerAnimator playerAnimator,
             InputReader inputReader,
             PlayerMover playerMover)
-            : base(fsmPlayer, playerAnimator, inputReader)
+            : base(stateMachine, playerAnimator, inputReader)
         {
             _playerMover = playerMover;
         }
@@ -23,7 +23,7 @@ namespace Scripts.FSMPlayer
         public override void Update()
         {
             if (InputReader.NotHaveInput())
-                FsmPlayer.SetState<FsmPlayerStateIdle>();
+                StateMachine.SetState<Idle>();
         }
 
         public override void FixedUpdate() =>

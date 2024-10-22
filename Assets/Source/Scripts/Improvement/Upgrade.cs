@@ -40,16 +40,17 @@ namespace Scripts.Improvement
 
         private bool TryUpgrade()
         {
-            if (_currentUpgrade < MaxUpgrade && _experienceBalance.TrySubtract(_cost))
-            {
-                _currentUpgrade++;
-                _cost *= _costMultiplier;
-                _soundPlayer.PlayUpgradeClip();
-                Upgraded?.Invoke();
-                return true;
-            }
+            if (_currentUpgrade == MaxUpgrade)
+                return false;
 
-            return false;
+            if (_experienceBalance.TrySubtract(_cost) == false)
+                return false;
+
+            _currentUpgrade++;
+            _cost *= _costMultiplier;
+            _soundPlayer.PlayUpgradeClip();
+            Upgraded?.Invoke();
+            return true;
         }
     }
 }

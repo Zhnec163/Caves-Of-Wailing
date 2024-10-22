@@ -3,7 +3,7 @@
 namespace Scripts.Interactive.Ore
 {
     [RequireComponent(typeof(MeshFilter))]
-    public class OreMeshChange : MonoBehaviour
+    public class OreMeshChanger : MonoBehaviour
     {
         [SerializeField] private Mesh _smallOre;
 

@@ -6,9 +6,9 @@ using Scripts.Input;
 using Scripts.Interactive.Ore;
 using Scripts.Interactive.Resource;
 
-namespace Scripts.FSMPlayer
+namespace Scripts.FSMPlayer.States
 {
-    public class FsmPlayerStateCollect : FsmPlayerState
+    public class Collect : BaseState
     {
         private readonly OreDetector _oreDetector;
         private readonly Backpack _backpack;
@@ -17,15 +17,15 @@ namespace Scripts.FSMPlayer
         private UniTask _collecting;
         private CancellationTokenSource _cancellationTokenSource;
 
-        public FsmPlayerStateCollect(
-            FsmPlayer fsmPlayer,
+        public Collect(
+            StateMachine stateMachine,
             PlayerAnimator playerAnimator,
             InputReader inputReader,
             OreDetector oreDetector,
             Backpack backpack,
             float collectTime,
             ExperienceBalance experienceBalance)
-            : base(fsmPlayer, playerAnimator, inputReader)
+            : base(stateMachine, playerAnimator, inputReader)
         {
             _oreDetector = oreDetector;
             _backpack = backpack;
@@ -46,9 +46,9 @@ namespace Scripts.FSMPlayer
         public override void Update()
         {
             if (InputReader.HaveInput())
-                FsmPlayer.SetState<FsmPlayerStateRun>();
+                StateMachine.SetState<Run>();
             else if (_oreDetector.TryGetOre(out Ore _) == false || _oreDetector.TryGetOre(out Ore ore) && ore.IsEmpty() || _backpack.IsFull())
-                FsmPlayer.SetState<FsmPlayerStateIdle>();
+                StateMachine.SetState<Idle>();
             else if (_collecting.Status == UniTaskStatus.Succeeded)
                 _collecting = Collecting();
         }
@@ -60,11 +60,11 @@ namespace Scripts.FSMPlayer
             if (_cancellationTokenSource.IsCancellationRequested)
                 return;
 
-            if (_oreDetector.TryGetOre(out Ore ore) && ore.TryGetResource(out Resource resource))
-            {
-                if (_backpack.TryPutResource(resource))
-                    _experienceBalance.Increment();
-            }
+            if (_oreDetector.TryGetOre(out Ore ore) == false || ore.TryGetResource(out Resource resource) == false)
+                return;
+
+            if (_backpack.TryPutResource(resource))
+                _experienceBalance.Increment();
         }
     }
 }

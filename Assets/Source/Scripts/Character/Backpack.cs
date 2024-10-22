@@ -58,36 +58,32 @@ namespace Scripts.Character
 
         public bool TryDischarge()
         {
-            if (HaveResources())
-            {
-                BackpackCell backpackCell = _cells.LastOrDefault(cell => cell.HaveResource());
+            if (HaveResources() == false)
+                return false;
 
-                if (backpackCell != default && backpackCell.TryGetResource(out Resource resource))
-                {
-                    resource.MoveToPortal();
-                    Updated?.Invoke(ResourceCount(), _cells.Count);
-                    return true;
-                }
-            }
+            BackpackCell backpackCell = _cells.LastOrDefault(cell => cell.HaveResource());
 
-            return false;
+            if (backpackCell == default || backpackCell.TryGetResource(out Resource resource) == false)
+                return false;
+
+            resource.MoveToPortal();
+            Updated?.Invoke(ResourceCount(), _cells.Count);
+            return true;
         }
 
         public bool TryPutResource(Resource resource)
         {
-            if (IsNotFull())
-            {
-                BackpackCell backpackCell = _cells.FirstOrDefault(cell => cell.IsEmpty());
+            if (IsFull())
+                return false;
 
-                if (backpackCell != default && backpackCell.TryPut(resource))
-                {
-                    resource.MoveToBackpack(backpackCell.transform);
-                    Updated?.Invoke(ResourceCount(), _cells.Count);
-                    return true;
-                }
-            }
+            BackpackCell backpackCell = _cells.FirstOrDefault(cell => cell.IsEmpty());
 
-            return false;
+            if (backpackCell == default || backpackCell.TryPut(resource) == false)
+                return false;
+
+            resource.MoveToBackpack(backpackCell.transform);
+            Updated?.Invoke(ResourceCount(), _cells.Count);
+            return true;
         }
 
         public bool IsEmpty() =>

@@ -1,17 +1,17 @@
 using Scripts.Character;
 using Scripts.Input;
 
-namespace Scripts.FSMPlayer
+namespace Scripts.FSMPlayer.States
 {
-    public abstract class FsmPlayerState
+    public abstract class BaseState
     {
-        protected readonly FsmPlayer FsmPlayer;
+        protected readonly StateMachine StateMachine;
         protected readonly PlayerAnimator PlayerAnimator;
         protected readonly InputReader InputReader;
 
-        protected FsmPlayerState(FsmPlayer fsmPlayer, PlayerAnimator playerAnimator, InputReader inputReader)
+        protected BaseState(StateMachine stateMachine, PlayerAnimator playerAnimator, InputReader inputReader)
         {
-            FsmPlayer = fsmPlayer;
+            StateMachine = stateMachine;
             PlayerAnimator = playerAnimator;
             InputReader = inputReader;
         }

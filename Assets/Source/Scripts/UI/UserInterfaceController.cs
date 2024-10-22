@@ -2,7 +2,6 @@ using Scripts.Constant;
 using Scripts.InteractiveZone;
 using Scripts.Logic;
 using Scripts.Struct;
-using Scripts.UI.Entity;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,12 +11,12 @@ namespace Scripts.UI
 {
     public class UserInterfaceController : MonoBehaviour
     {
-        [SerializeField] private GameUI _gameUI;
-        [SerializeField] private PauseMenu _pauseMenu;
-        [SerializeField] private WinnerMenu _winnerMenu;
-        [SerializeField] private LoseMenu _loseMenu;
-        [SerializeField] private UpgradeCards _upgradeCards;
-        [SerializeField] private RewardPopup _rewardPopup;
+        [SerializeField] private GameObject _gameUI;
+        [SerializeField] private GameObject _pauseMenu;
+        [SerializeField] private GameObject _winnerMenu;
+        [SerializeField] private GameObject _loseMenu;
+        [SerializeField] private GameObject _upgradeCards;
+        [SerializeField] private GameObject _rewardPopup;
         [SerializeField] private TMP_Text _totalExperience;
         [SerializeField] private TMP_Text _timeLeft;
         [SerializeField] private TMP_Text _score;
@@ -126,28 +125,28 @@ namespace Scripts.UI
             _toMenuButton.gameObject.SetActive(false);
 
         private void ShowUpgradeCards() =>
-            _upgradeCards.gameObject.SetActive(true);
+            _upgradeCards.SetActive(true);
 
         private void CloseUpgradeCards() =>
-            _upgradeCards.gameObject.SetActive(false);
+            _upgradeCards.SetActive(false);
 
         private void ShowLoseMenu() =>
-            _loseMenu.gameObject.SetActive(true);
+            _loseMenu.SetActive(true);
 
         private void ShowWinnerMenu() =>
-            _winnerMenu.gameObject.SetActive(true);
+            _winnerMenu.SetActive(true);
 
         private void ShowPauseMenu() =>
-            _pauseMenu.gameObject.SetActive(true);
+            _pauseMenu.SetActive(true);
 
         private void ClosePauseMenu() =>
-            _pauseMenu.gameObject.SetActive(false);
+            _pauseMenu.SetActive(false);
 
         private void ShowGameUI() =>
-            _gameUI.gameObject.SetActive(true);
+            _gameUI.SetActive(true);
 
         private void CloseGameUI() =>
-            _gameUI.gameObject.SetActive(false);
+            _gameUI.SetActive(false);
 
         private void ShowUpgrade()
         {
